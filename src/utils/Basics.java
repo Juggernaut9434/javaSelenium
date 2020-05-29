@@ -1,15 +1,15 @@
-// import webdriver
+package utils;// import webdriver
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class basics {
+public class Basics {
 
     private WebDriverWait waiter;
     private ChromeDriver drive;
-    public basics(ChromeDriver driver, int waitTime){
+    public Basics(ChromeDriver driver, int waitTime){
         // @link WebDriverWait#WebDriverWait(WebDriver, Duration);
         waiter = new WebDriverWait(driver, waitTime);
         drive = driver;
@@ -40,6 +40,29 @@ public class basics {
         return element;
     }
 
+    public WebElement findBySelector(String cssSelctor)
+    {
+        WebElement element;
+        try {
+            try {
+                WebElement f = waiter.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(cssSelctor)));
+            }
+            catch(TimeoutException e){
+                assert true;
+            }
+            element = waiter.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(cssSelctor)));
+        }
+        catch(TimeoutException e){
+            throw new TimeoutException("time out on xpath" + cssSelctor);
+        }
+        catch(NoSuchElementException g)
+        {
+            throw new NoSuchElementException("no such element with xpath: " + cssSelctor);
+        }
+
+        return element;
+    }
+
     public void blockUIDisappear(String css)
     {
         try {
@@ -60,7 +83,7 @@ public class basics {
             drive.executeScript("window.scrollTo(0, document.body.scrollHeight)");
     }
 
-    public clickClearSendKeys(WebElement element, String keys)
+    public void clickClearSendKeys(WebElement element, String keys)
     {
         element.click();
         element.clear();

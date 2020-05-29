@@ -1,3 +1,5 @@
+package utils;
+
 public class handytools {
     public String randomChars() {
         StringBuilder text = new StringBuilder("_");
